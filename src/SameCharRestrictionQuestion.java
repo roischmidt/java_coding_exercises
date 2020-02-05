@@ -1,7 +1,6 @@
 import java.util.HashMap;
 import java.util.Iterator;
 
-import static google.interviews.Assertion.assertion;
 
 /**
  * Given a string, check if it is can be reorganized such that the same char is not next to each other,
@@ -13,7 +12,7 @@ import static google.interviews.Assertion.assertion;
 public class SameCharRestrictionQuestion {
 
     public static void main(String[] args){
-        assertion(stringIntercalation("google").equals("eogolg"));
+        Assertion.assertion(stringIntercalation("google").equals("eogolg"));
     }
 
     // Logic: if the highest frequency character count is lesser or equal
