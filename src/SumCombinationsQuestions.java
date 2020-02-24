@@ -7,7 +7,6 @@ import java.util.*;
 public class SumCombinationsQuestions {
 
     public static void main(String[] args){
-        int[] arr = {1,2,3,4,5,10,11,34,14,4,4,15};
         int [] set = {1,2,3,4,5,6,10,9,7,7};
         Set<Set<Integer>> res = getAllSumCombinations(set,new LinkedList<>(),set.length,4,new HashSet<>());
         System.out.println(res.size());

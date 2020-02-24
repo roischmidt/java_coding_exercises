@@ -11,6 +11,13 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Given a dictionary of words & a miss-spelled input,
+ * write a function which will find 3 words from the dictionary which are closest
+ * (by difference of 1-character) to the given input.
+ *
+ * dict = {vil, sit, flick, pat, pluck, sat, vat}, input = vit, ans = {sit, vil, vat}
+ */
 import static java.util.stream.Collectors.toCollection;
 public class DictionaryQuestion {
 
@@ -56,6 +63,6 @@ public class DictionaryQuestion {
     public static void main(String args[]) {
         Set<String> set = new HashSet<>();
         set.add("vil");set.add("sit");set.add("flick");set.add("pat");set.add("pluck");set.add("sat");set.add("vat");
-        System.out.println(Dictionary.findSimillar("sot",set));
+        System.out.println(Dictionary.findSimillar("vit",set));
     }
 }
