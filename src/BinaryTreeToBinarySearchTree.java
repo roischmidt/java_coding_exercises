@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,27 +31,46 @@ public class BinaryTreeToBinarySearchTree {
         }
     }
 
-    public static Node balanceTree(Node tree) {
-        List<Node> nodes = binaryTreeToList(tree,new ArrayList<>());
-        List<Node> sortedNodeList = nodes.stream().sorted(Comparator.comparingInt(x -> x.value)).collect(Collectors.toList());
-        return sortedListToBST(sortedNodeList, 0,nodes.size() - 1);
+    public static class ENodeComparator implements Comparator<Node> {
+
+        @Override
+        public int compare(Node node1, Node node2) {
+            return node1.value - node2.value;
+        }
     }
 
-    private static List<Node> binaryTreeToList(Node node, ArrayList<Node> ls) {
+    public static Node balanceTree(Node node) {
+        int treeSize = binaryTreeSize(node,new ArrayList<>());
+        Node[] nodes = binaryTreeToArray(node,0,new Node[treeSize]);
+        Arrays.sort(nodes,new ENodeComparator());
+        return sortedListToBST(nodes, 0,nodes.length - 1);
+    }
+
+    private static Node[] binaryTreeToArray(Node node,int idx, Node[] tree) {
+        if(idx >= tree.length)
+            return tree;
+       tree[idx] = node;
+       if(node != null) {
+           binaryTreeToArray(node.left,idx*2 + 1, tree);
+           binaryTreeToArray(node.right, idx*2 + 2,tree);
+       }
+        return tree;
+    }
+    private static int binaryTreeSize(Node node,ArrayList<Node> tree) {
         if(node == null)
-            return ls;
-        ls.add(node);
-        binaryTreeToList(node.left,ls);
-        binaryTreeToList(node.right,ls);
-        return ls;
+            return tree.size();
+        tree.add(node);
+        binaryTreeSize(node.left,tree);
+        binaryTreeSize(node.right,tree);
+        return tree.size();
     }
 
-    private static Node sortedListToBST(List<Node> nodes,int start, int end) {
+    private static Node sortedListToBST(Node[] nodes,int start, int end) {
         if(start > end)
             return null;
 
         int mid = (start + end)/2;
-        Node root = nodes.get(mid);
+        Node root = nodes[mid];
 
         root.left  = sortedListToBST(nodes, start, mid-1);
         root.right = sortedListToBST(nodes, mid+1, end);
@@ -67,6 +87,7 @@ public class BinaryTreeToBinarySearchTree {
         Node five = new Node(5, null, null);
         Node two = new Node(2, four, five);
         Node root1 = new Node(1, two, three);
-        System.out.println(balanceTree(root1));
+        Node tree = balanceTree(root1);
+        System.out.println(tree);
     }
 }
