@@ -21,12 +21,13 @@ public class ThreeSum {
             res.add(threeList);
 
         }
+        threeSum(ls,x,y,z+1,res);
         threeSum(ls,x,y+1,z+1,res);
         return res;
     }
 
     public static void main(String[] args) {
-        List<Integer> ls = Arrays.asList(-1, 0, 1, 2, -1, -4);
+        List<Integer> ls = Arrays.asList(-1, 0, 1, 2,-4,-1,0,4);
         Set<List<Integer>> ret = threeSum(ls,0,1,2, new HashSet<>());
         System.out.println(ret);
     }
