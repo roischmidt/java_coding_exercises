@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
  *
@@ -40,12 +43,55 @@ public class ZigzagConversion {
 
     public static void main(String[] args) {
         ZigzagConversion zigzagConversion = new ZigzagConversion();
-        String res = zigzagConversion.convert("PAYPALISHIRING",4);
+        String res = zigzagConversion.convert("PAYPALISHIRING", 4);
         assert (res.equals("PINALSIGYAHRPI"));
         System.out.println(res);
-        res = zigzagConversion.convert("ABC",2);
+        res = zigzagConversion.convert("ABC", 2);
         assert (res.equals("ACB"));
         System.out.println(res);
+        System.out.println(zigzagConversion.romanToInt("MDCCCLXXXIV"));
+    }
+
+    private Map<String,Integer> rep  = new HashMap<String, Integer>() {{
+        put("0",0);
+        put("I", 1);
+        put("IV", 4);
+        put("V", 5);
+        put("IX", 9);
+        put("X", 10);
+        put("XL", 40);
+        put("L", 50);
+        put("XC", 90);
+        put("C", 100);
+        put("CD", 400);
+        put("D", 500);
+        put("CM", 900);
+        put("M", 1000);
+    }};
+    public int romanToInt(String s) {
+        int res = 0;
+        for(int i = 0; i < s.length();){
+            char l = s.charAt(i);
+            i++;
+            char r = i == s.length() || (!isPrefix(l) && isPrefix(s.charAt(i))) ? '0' : s.charAt(i);
+            res += translatePair(l,r);
+            if(r != '0') i++;
+        }
+        return res;
+    }
+
+    public int translatePair(char l, char r){
+        char pair[] = {l,r};
+        String pairStr = new String(pair);
+        Integer res = rep.get(pairStr);
+        if(res == null){
+            res = rep.get(Character.toString(l)) + rep.get(Character.toString(r));
+        }
+        return res;
+    }
+
+    public boolean isPrefix(char c){
+        return (c == 'I' || c == 'X' || c == 'C');
     }
 
     public String convert(String s, int numRows) {
